@@ -5,25 +5,20 @@ import { useGetChatById } from "../hooks/chat";
 import { useEffect } from "react";
 
 const ActiveChatLoader = ({ chatId }) => {
-
   const { setActiveChatId, setMessages, addChat, chats } = useChatStore();
 
   const { data } = useGetChatById(chatId);
 
   useEffect(() => {
-
     if (!chatId) return;
 
     setActiveChatId(chatId);
-
   }, [chatId, setActiveChatId]);
 
   useEffect(() => {
     if (!data || !data.success || !data.data) return;
 
     const chat = data.data;
-
-    console.log(chat);
 
     // populate messages
     setMessages(chat.messages || []);
@@ -32,7 +27,6 @@ const ActiveChatLoader = ({ chatId }) => {
       addChat(chat);
     }
   }, [data, setMessages, addChat, chats]);
-
 
   return null;
 };
