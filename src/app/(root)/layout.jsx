@@ -6,11 +6,12 @@ import Header from "@/modules/chat/components/header";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-const RootLayout = async ({ children }) => {
+export const dynamic = "force-dynamic";
 
+const RootLayout = async ({ children }) => {
   const session = await auth.api.getSession({
     headers: await headers(),
-  })
+  });
 
   const user = await currentUser();
 
@@ -32,7 +33,7 @@ const RootLayout = async ({ children }) => {
         </main>
       </div>
     </>
-  )
+  );
 };
 
 export default RootLayout;
