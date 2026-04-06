@@ -17,12 +17,17 @@ import {
 import UserButton from "@/modules/authentication/components/user-button";
 
 import { cn } from "@/lib/utils";
-import { PlusIcon, SearchIcon, MenuIcon, EllipsisIcon, Trash } from "lucide-react";
+import {
+  PlusIcon,
+  SearchIcon,
+  MenuIcon,
+  EllipsisIcon,
+  Trash,
+} from "lucide-react";
 import { useChatStore } from "../store/chat-store";
 import DeleteChatModal from "./model/delete-chat-modal";
 
 const ChatSidebar = ({ user, chats }) => {
-
   const { activeChatId } = useChatStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedChatId, setSelectedChatId] = useState(null);
@@ -36,13 +41,13 @@ const ChatSidebar = ({ user, chats }) => {
 
     const query = searchQuery.toLowerCase();
 
-    return chats.filter((chat) =>
-      chat.title?.toLowerCase().includes(query) ||
-      chat.messages?.some(msg =>
-        msg.content?.toLowerCase().includes(query)
-      )
+    return chats.filter(
+      (chat) =>
+        chat.title?.toLowerCase().includes(query) ||
+        chat.messages?.some((msg) =>
+          msg.content?.toLowerCase().includes(query),
+        ),
     );
-
   }, [chats, searchQuery]);
 
   // Group chats by date
@@ -58,10 +63,10 @@ const ChatSidebar = ({ user, chats }) => {
       today: [],
       yesterday: [],
       lastWeek: [],
-      older: []
+      older: [],
     };
 
-    filteredChats.forEach(chat => {
+    filteredChats.forEach((chat) => {
       const chatDate = new Date(chat.createdAt);
 
       if (chatDate >= today) {
@@ -80,14 +85,14 @@ const ChatSidebar = ({ user, chats }) => {
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
-  }
+  };
 
   const onDelete = (e, chatId) => {
     e.preventDefault();
     e.stopPropagation();
     setSelectedChatId(chatId);
     setIsModalOpen(true);
-  }
+  };
 
   const renderChatList = (chatList) => {
     if (chatList.length === 0) return null;
@@ -98,7 +103,7 @@ const ChatSidebar = ({ user, chats }) => {
           href={`/chat/${chat.id}`}
           className={cn(
             "block rounded-lg px-3 py-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent transition-colors",
-            chat.id === activeChatId && "bg-sidebar-accent"
+            chat.id === activeChatId && "bg-sidebar-accent",
           )}
         >
           <div className="flex flex-row justify-between items-center gap-2">
@@ -136,9 +141,8 @@ const ChatSidebar = ({ user, chats }) => {
           setIsModalOpen={setIsModalOpen}
         />
       </Fragment>
-
-    ))
-  }
+    ));
+  };
 
   return (
     <>
@@ -151,6 +155,7 @@ const ChatSidebar = ({ user, chats }) => {
               alt="Logo"
               width={100}
               height={100}
+              className="w-24 h-24"
             />
           </div>
         </div>
@@ -181,55 +186,61 @@ const ChatSidebar = ({ user, chats }) => {
 
         {/* Thread List */}
         <div className="flex-1 overflow-y-auto px-2">
-          {
-            filteredChats.length === 0 ? (
-              <div className="text-center text-sm text-muted-foreground py-8">
-                {searchQuery ? "No chats found" : "No chats yet"}
-              </div>
-            ) : (
-              <>
-                {
-                  groupedChats.today.length > 0 && (
-                    <div className="mb-4">
-                      <div className="mb-2 px-2 text-xs font-semibold text-muted-foreground">Today</div>
-                      {renderChatList(groupedChats.today)}
-                    </div>
-                  )
-                }
-
-                {groupedChats.yesterday.length > 0 && (
-                  <div className="mb-4">
-                    <div className="mb-2 px-2 text-xs font-semibold text-muted-foreground">Yesterday</div>
-                    {renderChatList(groupedChats.yesterday)}
+          {filteredChats.length === 0 ? (
+            <div className="text-center text-sm text-muted-foreground py-8">
+              {searchQuery ? "No chats found" : "No chats yet"}
+            </div>
+          ) : (
+            <>
+              {groupedChats.today.length > 0 && (
+                <div className="mb-4">
+                  <div className="mb-2 px-2 text-xs font-semibold text-muted-foreground">
+                    Today
                   </div>
-                )}
+                  {renderChatList(groupedChats.today)}
+                </div>
+              )}
 
-                {groupedChats.lastWeek.length > 0 && (
-                  <div className="mb-4">
-                    <div className="mb-2 px-2 text-xs font-semibold text-muted-foreground">Last 7 Days</div>
-                    {renderChatList(groupedChats.lastWeek)}
+              {groupedChats.yesterday.length > 0 && (
+                <div className="mb-4">
+                  <div className="mb-2 px-2 text-xs font-semibold text-muted-foreground">
+                    Yesterday
                   </div>
-                )}
+                  {renderChatList(groupedChats.yesterday)}
+                </div>
+              )}
 
-                {groupedChats.older.length > 0 && (
-                  <div className="mb-4">
-                    <div className="mb-2 px-2 text-xs font-semibold text-muted-foreground">Older</div>
-                    {renderChatList(groupedChats.older)}
+              {groupedChats.lastWeek.length > 0 && (
+                <div className="mb-4">
+                  <div className="mb-2 px-2 text-xs font-semibold text-muted-foreground">
+                    Last 7 Days
                   </div>
-                )}
-              </>
-            )
-          }
+                  {renderChatList(groupedChats.lastWeek)}
+                </div>
+              )}
+
+              {groupedChats.older.length > 0 && (
+                <div className="mb-4">
+                  <div className="mb-2 px-2 text-xs font-semibold text-muted-foreground">
+                    Older
+                  </div>
+                  {renderChatList(groupedChats.older)}
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         {/* Footer */}
         <div className="p-4 flex items-center gap-3 border-t border-sidebar-border">
           <UserButton user={user} />
-          <span className="flex-1 text-sm text-sidebar-foreground truncate">{user.email}</span>
+          <span className="flex-1 text-sm text-sidebar-foreground truncate">
+            {user.email}
+          </span>
         </div>
       </div>
     </>
-  )
+  );
 };
 
 export default ChatSidebar;
