@@ -150,13 +150,7 @@ const ChatSidebar = ({ user, chats }) => {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-sidebar-border px-4 py-3">
           <div className="flex items-center gap-2">
-            <Image
-              src={"/logo.svg"}
-              alt="Logo"
-              width={100}
-              height={100}
-              className="w-24 h-24"
-            />
+            <Image src={"/logo.svg"} alt="Logo" className="w-24 h-24" />
           </div>
         </div>
 
