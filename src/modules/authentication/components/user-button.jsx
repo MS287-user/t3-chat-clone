@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { User, LogOut, Settings, CreditCard, User as UserIcon } from "lucide-react";
+import {
+  User,
+  LogOut,
+  Settings,
+  CreditCard,
+  User as UserIcon,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -35,14 +41,13 @@ export default function UserButton({
     await signOut({
       fetchOptions: {
         onSuccess: () => {
-          router.push("/sign-in")
-        }
-      }
-    })
-  }
+          router.push("/sign-in");
+        },
+      },
+    });
+  };
 
   const handleLogout = async () => {
-
     setIsLoading(true);
     try {
       await onSignOut();
@@ -51,7 +56,6 @@ export default function UserButton({
     } finally {
       setIsLoading(false);
     }
-
   };
 
   // Get user initials for avatar fallback
@@ -183,7 +187,7 @@ export default function UserButton({
         <DropdownMenuItem
           onClick={handleLogout}
           disabled={isLoading}
-          className="cursor-pointer text-destructive focus:text-destructive"
+          className="cursor-pointer dark:text-white text-destructive focus:text-destructive"
         >
           <LogOut className="mr-2 h-4 w-4" />
           {isLoading ? "Logging out..." : "Log out"}
